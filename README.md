@@ -58,13 +58,32 @@ pio device monitor
 O sistema envia dados no formato CSV pela porta serial:
 ```
 timestamp_ms,raw
-1234,567890
-2345,568123
+11671,2566
+13875,2569
+16079,2580
+18283,2571
+20487,2567
+22691,2571
+24895,2567
+27098,2565
 ...
 ```
 
-- **timestamp_ms**: Tempo em milissegundos desde o início
-- **raw**: Valor bruto da leitura (sem offset ou calibração)
+**Coluna da esquerda (timestamp_ms)**: 
+- Tempo em milissegundos desde que o ESP32 foi ligado/resetado
+- Exemplo: `11671` = 11.671 segundos após iniciar
+- Útil para calcular taxa de amostragem e sincronizar dados
+
+**Coluna da direita (raw)**: 
+- Valor bruto do ADC de 24 bits do HX711 (média de 20 amostras)
+- Representa a corrente gerada pelo fotodiodo BPV10NF em resposta à radiação solar
+- Exemplo: `2566` = leitura bruta do conversor analógico-digital
+
+#### Interpretando os Valores Raw
+- Valores típicos em **ambiente escuro**: ~2000-3000 (depende do offset do HX711)
+- Valores **aumentam** proporcionalmente à intensidade da radiação solar incidente
+- Os valores são **não calibrados** - para obter W/m² é necessário calibração com piranômetro padrão
+- Variações pequenas (~10-20 unidades) são normais devido ao ruído eletrônico
 
 ## 📊 Funcionamento
 
